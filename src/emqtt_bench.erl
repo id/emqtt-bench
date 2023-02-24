@@ -793,7 +793,7 @@ publish(Client, Opts) ->
     ok = ensure_publish_begin_time(),
     Flags   = [{qos, proplists:get_value(qos, Opts)},
                {retain, proplists:get_value(retain, Opts)}],
-   Payload = proplists:get_value(payload, Opts),
+   Payload = iolist_to_binary(io_lib:format("~p", [os:system_time(millisecond)])),
    %% prefix dynamic headers.
    NewPayload = case proplists:get_value(payload_hdrs, Opts, []) of
                    [] -> Payload;
